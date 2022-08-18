@@ -1,0 +1,52 @@
+{
+    "audio_file": "/home/fuku/PycharmProjects/Karaoke/misc_files/curt.mp3",
+    "markers": {
+        "0" : {"name" : "marker_name",
+            "position_audio" : "marker pos in samples",
+            "position_text" : "pos in absolute pixels (before scaling)",
+            "color": [0, 100, 0]
+            },
+        "1" : {"name" : "marker_name",
+            "position" : "marker pos in samples",
+            "position_text" : "pos in absolute pixels (before scaling)",
+            "color": [100, 0, 0]
+            },
+       "2" : {"name" : "marker_name",
+            "position" : "marker pos in samples",
+            "position_text" : "pos in absolute pixels (before scaling)",
+            "color": [0, 0, 100]
+            }
+    },
+    "text": {
+        "font": "text font",
+        "size": 33,
+        "text": "Text goes here!"
+    },
+    "color_samples": {
+        "00": [126,141,12],
+        "01": [242,85,207],
+        "02": [47,92,123],
+        "03": [120,57,164],
+        "04": [250,50,73],
+        "10": [150,104,220],
+        "11": [249,125,197],
+        "12": [186,122,160],
+        "13": [125,1,176],
+        "14": [2,55,227],
+        "20": [15,2,132],
+        "21": [22,152,137],
+        "22": [8,40,106],
+        "23": [22,182,125],
+        "24": [70,249,111],
+        "30": [253,255,203],
+        "31": [137,195,96],
+        "32": [240,128,16],
+        "33": [57,100,234],
+        "34": [123,84,97],
+        "40": [106,141,173],
+        "41": [123,36,166],
+        "42": [17,152,160],
+        "43": [139,83,64],
+        "44": [235,195,35]
+}
+}
