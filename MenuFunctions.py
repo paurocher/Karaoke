@@ -73,7 +73,7 @@ MENU_STRUCTURE = {
     "test/cccccc/XXX": {"function": test_ccc_xxx},
     "test/cccccc/YYYYYY": {"function": None},
     "test/cccccc/YYYYYY/ttt": {"function": test_ccc_yyy_ttt},
-    "test/cccccc/YYYYYY/j": {"function": test_ccc_yyy_jjj},
+    "test/cccccc/YYYYYY/jl": {"function": test_ccc_yyy_jjj},
     "test/cccccc/YYYYYY/mmmmmm": {"function": test_ccc_yyy_mmm},
     "color picker": {"function": color_picker},
 }
