@@ -47,7 +47,7 @@ class MenuBar:
         if self.is_open:
             self.rect.h = self.window_rect.h
         else:
-            self.rect.h = 15
+            self.rect.h = self.thickness
 
         # print (event.type)
         mouse_pos = pg.mouse.get_pos()
@@ -109,7 +109,7 @@ class MenuBar:
             # surf, rect = self.menu_structure[path]["item"].draw()
             self.menu_structure[path]["surf"] = None
             self.menu_structure[path]["rect"] = None
-            self.menu_structure[path]["level"] = len(pieces) - 1 #  will hold the menu object
+            self.menu_structure[path]["level"] = len(pieces) - 1
         # pp(self.menu_structure)
 
     def build_bar(self):
@@ -154,6 +154,17 @@ class MenuBar:
         else:  # if clicked is not a root menu item
             offset_x, offset_y = clicked_item["rect"].w + clicked_item["rect"].x, clicked_item["rect"].y
 
+        # look for longest menu entry so all others get the same rect size
+        longest_menu_entry = 0
+        for path, values in self.menu_structure.items():
+            submenu = ""
+            if values["level"] and not values["function"]:
+                submenu = "  >"
+            if path.startswith(parent_path) and values["level"] == clicked_item["level"] + 1:
+                item = values["name"] + submenu
+                if len(item) > longest_menu_entry:
+                    longest_menu_entry = len(item)
+
         valid_counter = 0
         for path, values in self.menu_structure.items():
             offset_x_submenu = 0
@@ -161,13 +172,22 @@ class MenuBar:
             if values["level"] and not values["function"]:
                 submenu = "  >"
                 offset_x_submenu = 0
+            extra_chars = longest_menu_entry - len(values["name"])
+            if extra_chars < 0: extra_chars = 0
+            if submenu:
+                name = "{}{: >{}}".format(values["name"], submenu, extra_chars)
+            else:
+                name = "{: <{}}".format(values["name"], extra_chars + 3)
+            if values["level"] > 1:
+                name = " " + name
             if path.startswith(parent_path) and values["level"] == clicked_item["level"] + 1:
                 # children.append(path)
-                item = MenuItem(values["name"] + submenu)
+                item = MenuItem(name)
                 item.path = path
-                item.move(offset_x + offset_x_submenu, offset_y + 15 * valid_counter)
+                print(item.rect[3])
+                item.move(offset_x + offset_x_submenu, offset_y + item.rect[3] * valid_counter)
                 surf, rect = item.draw()
-                self.surf.blit(surf, rect)
+                # self.surf.blit(surf, rect)
                 self.menu_structure[path]["rect"] = rect
                 self.menu_structure[path]["surf"] = surf
                 self.menu_structure[path]["show"] = True
@@ -178,6 +198,7 @@ class MenuBar:
                     self.menu_structure[path]["show"] = False
                     self.menu_structure[path]["rect"] = False
 
+
     def hide_children(self):
         """Whenever not colliding with a menu, hide the menu
         items that are not needed from the menu_items list"""
@@ -187,7 +208,21 @@ class MenuBar:
 
     def draw(self):
         # self.surf.fill((0, 0, 60, 10))
-        pg.draw.rect(self.surf, BG_COLOR, (0, 0, self.window_rect.w, 15))
+        pg.draw.rect(self.surf, BG_COLOR, (0, 0, self.window_rect.w, self.thickness))
+        x, y, w, h = [], [], [], []
+        for path, values in self.menu_structure.items():
+            if values["show"] and values["level"]:
+                rect = values["rect"]
+                x.append(rect[0])
+                y.append(rect[1])
+                w.append(rect[2])
+                h.append(rect[3])
+
+        if x:
+            pg.draw.rect(self.surf, BG_COLOR, (min(x),
+                                                   min(y),
+                                                   max(w),
+                                                   sum(h)))
         for path, values in self.menu_structure.items():
             if values["show"]:
                 surf, rect = values["item"].draw()
@@ -222,16 +257,21 @@ class MenuItem:
                                      self.font_color,
                                      self.bg_color)
         self.rect = self.surf.get_rect()
+        self.rect[3] = 17 # 17
+        # pg.draw.rect(self.surf, (10, 80, 10), (0, 0, 100, 100))
 
     def move(self, x, y):
         self.rect = self.rect.move((x, y))
 
     def draw(self):
         """Draws this specific menu item."""
+        # self.surf.fill((10, 80, 10))
         self.surf = self.font.render(self.name,
                                      True,
                                      self.font_color,
                                      self.bg_color)
+        # pg.draw.rect(self.surf, (10, 100, 10), (0, 0, 100, 100))
+
         return self.surf, self.rect
 
     def events(self):
