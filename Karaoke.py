@@ -37,21 +37,21 @@ wave = Wave(menu_bar,
             path="./misc_files/Prova numeros.mp3",
             padding=(0,0),
             )
-utils.WINDOW_ELEMENTS["wave"] = wave
+utils.WINDOW_ELEMENTS["WAVE"] = wave
 print(wave)
 
 # create cursor
-cursor = Cursor(wave)
+cursor = Cursor()
 cursor_surface = cursor.draw()[0]
 cursor_rect = cursor.draw()[1]
 cursor.move(0)
-utils.WINDOW_ELEMENTS["cursor"] = cursor
+utils.WINDOW_ELEMENTS["CURSOR"] = cursor
 
 square = Square(wave)
 
 # color picker
 cp_win = create_cp_window(WINDOW_RECT)
-utils.WINDOW_ELEMENTS["cp_win"] = cp_win
+utils.WINDOW_ELEMENTS["CP_WIN"] = cp_win
 
 while RUNNING:
     CLOCK.tick(60)
