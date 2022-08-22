@@ -109,7 +109,7 @@ class MenuBar:
             # surf, rect = self.menu_structure[path]["item"].draw()
             self.menu_structure[path]["surf"] = None
             self.menu_structure[path]["rect"] = None
-            self.menu_structure[path]["level"] = len(pieces) - 1
+            self.menu_structure[path]["level"] = len(pieces) - 1 #  will hold the menu object
         # pp(self.menu_structure)
 
     def build_bar(self):
@@ -198,9 +198,7 @@ class MenuBar:
                     self.menu_structure[path]["show"] = False
                     self.menu_structure[path]["rect"] = False
 
-
     def hide_children(self):
-        "adding test branch ..."
         """Whenever not colliding with a menu, hide the menu
         items that are not needed from the menu_items list"""
         for menu, values in self.menu_structure.items():
