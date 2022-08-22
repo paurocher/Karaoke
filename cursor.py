@@ -3,17 +3,18 @@ pygame.init()
 
 from utils import (pos_sample_to_pixel,
                    pos_pixel_to_sample)
+import utils
 
 class Cursor():
-    def __init__(self, wave):
-        self.wave = wave
-        self.wave_rect = self.wave.rect
+    def __init__(self):
+        self.wave = utils.WINDOW_ELEMENTS["WAVE"]
+        self.wave_rect = self.wave.rect_scaled
         self.cursor_W = 15
         self.fg_color = (255, 0, 0, 255)
         self.bg_color = (255, 0, 0, 75)
         self.cursor_surf = pygame.Surface((self.cursor_W,
                                            300),
-                                           pygame.SRCALPHA)
+                                          pygame.SRCALPHA)
         self.cursor_rect = self.cursor_surf.get_rect()
         self.cursor_surf.fill(self.bg_color, self.cursor_rect)
         pygame.draw.polygon(self.cursor_surf, self.fg_color,
@@ -49,13 +50,11 @@ class Cursor():
         sound_surface_map = self.wave.sound_surface_map
         pos = pos_sample_to_pixel(sample_pos, sound_surface_map)
         self.cursor_surf_scale = pygame.transform.smoothscale(
-            self.cursor_surf, (self.cursor_W, self.wave.rect[3]))
+            self.cursor_surf, (self.cursor_W, self.wave_rect[3]))
         self.cursor_rect_scale = pygame.Rect(pos + self.wave.wave_padding[0] - self.cursor_W / 2,
-                                  self.wave.rect[1],
-                                  100,
-                                  self.wave.rect[3])
-
-
+                                             self.wave_rect[1],
+                                             100,
+                                             self.wave_rect[3])
 
     def draw(self):
         return self.cursor_surf_scale, self.cursor_rect_scale
