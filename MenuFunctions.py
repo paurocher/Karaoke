@@ -50,7 +50,7 @@ def test_empty():
 
 def color_picker():
     print("This is what color_picker function does ...")
-    WINDOW_ELEMENTS["cp_win"].is_open = True
+    WINDOW_ELEMENTS["CP_WIN"].is_open = True
 
 
 MENU_STRUCTURE = {
