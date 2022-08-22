@@ -21,8 +21,10 @@ class Wave():
         self.wave_height = 1000
         self.wave = pygame.Surface((self.wave_width,
                                     self.wave_height))
-        self.rect = 0, 0, 0, 0
-        self.markers_area = 10  # this is temporary and will be driven by the markers bars (markers bar +
+        self.rect = self.wave.get_rect()
+        self.wave_scaled = None
+        self.rect_scaled = 0, 0, 0, 0
+        self.markers_area = 100  # this is temporary and will be driven by the markers bars (markers bar +
         # markers infor bar). So weĺl need to pass the window argument to this class to be able to grab
         # the markers bars properties.
         self.last_click_pos = self.get_click_pos((0, 0))
@@ -82,10 +84,10 @@ class Wave():
         # self.move(0, 0)
 
     def draw(self):
-        return self.wave, self.rect
+        return self.wave_scaled, self.rect_scaled
 
     def move(self, x=0, y=0):
-        self.rect = self.rect.move((x, y))
+        self.rect_scaled = self.rect_scaled.move((x, y))
 
     def set_size(self):
         win_width = pygame.display.get_window_size()[0]
@@ -102,15 +104,16 @@ class Wave():
         if rect_height < 1:
             rect_height = 1
 
-        self.wave = pygame.transform.smoothscale(self.wave,
-                                           (rect_width,
-                                            rect_height/2))
-        self.rect = self.wave.get_rect().move((x_pad, y_pad/2))
+        self.wave_scaled = pygame.transform.smoothscale(self.wave,
+                                                        (rect_width,
+                                                         rect_height/2)
+                                                        )
+        self.rect_scaled = self.wave_scaled.get_rect().move((x_pad, y_pad/2))
 
         self.sound_surface_map = len(self.sound_samples) / self.rect[2]
         # print("Wave surface: ",self.rect )
         # print("Sound surface map: ", self.sound_surface_map)
-        self.wave.blit(self.text(), (-5, 0))
+        self.wave_scaled.blit(self.text(), (-5, 0))
 
     def text(self):
         """   """
@@ -161,15 +164,15 @@ class Wave():
         """Transform mouse click position from window to wave surface
         coordinates"""
         # print(self.rect)
-        click_pos_wave_x = click_pos[0] - self.rect[0]
-        if click_pos_wave_x > self.rect[2]:
-            click_pos_wave_x = self.rect[2]
+        click_pos_wave_x = click_pos[0] - self.rect_scaled[0]
+        if click_pos_wave_x > self.rect_scaled[2]:
+            click_pos_wave_x = self.rect_scaled[2]
         if click_pos_wave_x < 0:
             click_pos_wave_x = 0
 
-        click_pos_wave_y = click_pos[1] - self.rect[1]
-        if click_pos_wave_y > self.rect[3]:
-            click_pos_wave_y = self.rect[3]
+        click_pos_wave_y = click_pos[1] - self.rect_scaled[1]
+        if click_pos_wave_y > self.rect_scaled[3]:
+            click_pos_wave_y = self.rect_scaled[3]
         if click_pos_wave_y < 0:
             click_pos_wave_y = 0
 
