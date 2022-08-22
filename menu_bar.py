@@ -200,6 +200,7 @@ class MenuBar:
 
 
     def hide_children(self):
+        "adding test branch ..."
         """Whenever not colliding with a menu, hide the menu
         items that are not needed from the menu_items list"""
         for menu, values in self.menu_structure.items():
@@ -209,20 +210,27 @@ class MenuBar:
     def draw(self):
         # self.surf.fill((0, 0, 60, 10))
         pg.draw.rect(self.surf, BG_COLOR, (0, 0, self.window_rect.w, self.thickness))
-        x, y, w, h = [], [], [], []
-        for path, values in self.menu_structure.items():
-            if values["show"] and values["level"]:
-                rect = values["rect"]
-                x.append(rect[0])
-                y.append(rect[1])
-                w.append(rect[2])
-                h.append(rect[3])
 
-        if x:
-            pg.draw.rect(self.surf, BG_COLOR, (min(x),
-                                                   min(y),
-                                                   max(w),
-                                                   sum(h)))
+        """THis draws a rectangle behind the submenus to hide transarent pixels if
+        they happen to be less than 15px in height.
+        THis is a temp patch. WHat I would like to know if why the recangle of submenus doesnt
+        fill in even if the rect is bigger than the rendered text. Also if the font is larger it appears cut out ...
+        # x, y, w, h = [], [], [], []
+        # for path, values in self.menu_structure.items():
+        #     if values["show"] and values["level"]:
+        #         rect = values["rect"]
+        #         x.append(rect[0])
+        #         y.append(rect[1])
+        #         w.append(rect[2])
+        #         h.append(rect[3])
+        #
+        # if x:
+        #     pg.draw.rect(self.surf, BG_COLOR, (min(x),
+        #                                            min(y),
+        #                                            max(w),
+        #                                            sum(h)))
+        """
+
         for path, values in self.menu_structure.items():
             if values["show"]:
                 surf, rect = values["item"].draw()
