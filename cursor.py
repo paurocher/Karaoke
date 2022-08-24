@@ -36,6 +36,8 @@ class Cursor():
         self.cursor_surf_scale = self.cursor_surf
         self.cursor_rect_scale = self.cursor_rect
 
+        self.pos = 0
+
     def get_rect(self, wave_rect, click_pos=None):
         """Solves the rect for the cursor where the mouse is dragging it."""
         self.cursor_rect = wave_rect.copy()
@@ -46,17 +48,29 @@ class Cursor():
         return self.cursor_rect
     
     def move(self, sample_pos):
-        # print("sample pos: ", sample_pos)
+
         sound_surface_map = self.wave.sound_surface_map
-        pos = pos_sample_to_pixel(sample_pos, sound_surface_map)
+        self.pos = pos_sample_to_pixel(sample_pos, sound_surface_map)
         self.cursor_surf_scale = pygame.transform.smoothscale(
             self.cursor_surf, (self.cursor_W, self.wave_rect[3]))
-        self.cursor_rect_scale = pygame.Rect(pos + self.wave.wave_padding[0] - self.cursor_W / 2,
+        self.cursor_rect_scale = pygame.Rect(self.pos + self.wave.wave_padding[0] - self.cursor_W / 2,
                                              self.wave_rect[1],
                                              100,
                                              self.wave_rect[3])
+        print("sample pos: ", sample_pos, "wav.sound_surface_map: ", self.wave.sound_surface_map,
+              "pos: ", self.pos)
+
+    def scale(self):
+        self.cursor_surf_scale = pygame.transform.smoothscale(
+            self.cursor_surf, (self.cursor_W, self.wave.rect_scaled[3]))
+        self.cursor_rect_scale = pygame.Rect(self.pos + self.wave.wave_padding[0] - self.cursor_W / 2,
+                                             self.wave.rect_scaled[1],
+                                             100,
+                                             self.wave.rect_scaled[3])
 
     def draw(self):
+        self.scale()
+        # print(self.pos)
         return self.cursor_surf_scale, self.cursor_rect_scale
 
     def draw_pos(self):
