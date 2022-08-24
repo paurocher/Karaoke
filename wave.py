@@ -50,7 +50,7 @@ class Wave():
 
         self.draw_wave()
         self.set_size()
-        self.move(0, self.menu_bar.thickness)
+        # self.move(0, self.menu_bar.thickness)
 
     def __str__(self):
         return("""total frames: {}
@@ -108,9 +108,9 @@ class Wave():
                                                         (rect_width,
                                                          rect_height/2)
                                                         )
-        self.rect_scaled = self.wave_scaled.get_rect().move((x_pad, y_pad/2))
+        self.rect_scaled = self.wave_scaled.get_rect().move((x_pad, y_pad/2 + 15))
 
-        self.sound_surface_map = len(self.sound_samples) / self.rect[2]
+        self.sound_surface_map = len(self.sound_samples) / self.rect_scaled[2]
         # print("Wave surface: ",self.rect )
         # print("Sound surface map: ", self.sound_surface_map)
         self.wave_scaled.blit(self.text(), (-5, 0))
