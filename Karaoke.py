@@ -4,7 +4,8 @@ from cursor import Cursor
 from square import Square
 from color_picker import create_cp_window
 from menu_bar import MenuBar
-import MenuFunctions
+import marks_audio_bar
+import marks_properties_bar
 import utils
 
 """Text will not have lines. Itś going to be only one string that will be
@@ -29,7 +30,7 @@ pygame.display.set_caption("Karaoke")
 
 # create menu bar
 menu_bar = MenuBar()
-utils.WINDOW_ELEMENTS["menu_bar"] = menu_bar
+utils.WINDOW_ELEMENTS["MENU_BAR"] = menu_bar
 
 
 # create wave
@@ -52,6 +53,12 @@ square = Square(wave)
 # color picker
 cp_win = create_cp_window(WINDOW_RECT)
 utils.WINDOW_ELEMENTS["CP_WIN"] = cp_win
+
+"""placeholders:"""
+marks_audio_bar = marks_audio_bar.MarksAudioBar()
+marks_properties_bar = marks_properties_bar.MarksPropertiesBar()
+utils.WINDOW_ELEMENTS["MARKS_AUDIO_BAR"] = marks_audio_bar
+utils.WINDOW_ELEMENTS["MARKS_PROPERTIES_BAR"] = marks_properties_bar
 
 while RUNNING:
     CLOCK.tick(60)
@@ -98,7 +105,7 @@ while RUNNING:
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             pos = pygame.mouse.get_pos()
-            if wave.rect.collidepoint(pos):
+            if wave.rect_scaled.collidepoint(pos):
                 wave.set_mouse_pos_vars(pos)
                 wave.set_play_pos(wave.sound_click_pos)
                 if wave.playing:
@@ -145,14 +152,19 @@ while RUNNING:
     WINDOW.blit(*wave.draw())
     WINDOW.blit(*cursor.draw_pos())
     WINDOW.blit(*cursor.draw())
-    pygame.draw.line(WINDOW,
-                     (255, 255, 255),
-                     (0, DISPLAY_H / 2),
-                     (DISPLAY_W, DISPLAY_H / 2))
+    # pygame.draw.line(WINDOW,
+    #                  (255, 255, 255),
+    #                  (0, DISPLAY_H / 2),
+    #                  (DISPLAY_W, DISPLAY_H / 2))
     WINDOW.blit(*menu_bar.draw())
     WINDOW.blit(*square.draw())
     if cp_win.is_open:
         WINDOW.blit(*cp_win.draw())
+
+
+    """placeholders:"""
+    WINDOW.blit(*marks_audio_bar.draw())
+    WINDOW.blit(*marks_properties_bar.draw())
 
 
     pygame.display.update()
